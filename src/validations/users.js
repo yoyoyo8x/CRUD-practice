@@ -24,10 +24,9 @@ export const signUpValidator = Joi.object({
 });
 
 export const signInValidator = Joi.object({
-  email: Joi.string().email().required().messages({
-    "string.empty": "Email không được để trống!",
-    "any.required": 'Trường "email" là bắt buộc!',
-    "string.email": "Email không đúng định dạng!",
+  userName: Joi.string().required().messages({
+    "string.empty": "Username không được để trống!",
+    "any.required": 'Trường "Username" là bắt buộc!',
   }),
   password: Joi.string().required().min(6).messages({
     "string.empty": "Password không được để trống!",

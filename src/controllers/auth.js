@@ -54,7 +54,7 @@ export const signUp = async (req, res) => {
 
 export const signIn = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { userName, password } = req.body;
     const { error } = signInValidator.validate(req.body, { abortEarly: false });
 
     if (error) {
@@ -64,7 +64,7 @@ export const signIn = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ userName });
     if (!user) {
       return res.status(400).json({
         message: "Bạn chưa đăng ký email này!",
@@ -80,9 +80,13 @@ export const signIn = async (req, res) => {
 
     // Tạo JWT:
 
-    const accessToken = jwt.sign({ _id: user._id }, SECRET_CODE, {
-      expiresIn: "1d",
-    });
+    const accessToken = jwt.sign(
+      { id: user.id, role: user.role },
+      SECRET_CODE,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     // Return result:
     user.password = undefined;
